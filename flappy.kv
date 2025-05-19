@@ -1,0 +1,54 @@
+<GameScreen>:
+    bird: bird_id
+    label: score_label
+    game_over_label: game_over_id
+
+    canvas:
+        Rectangle:
+            source: 'background.jpg'
+            pos: self.pos
+            size: self.size
+
+    Bird:
+        id: bird_id
+        source: 'bird.png'
+
+    Label:
+        id: score_label
+        text: str(root.score)
+        font_size: 40 * root.scale
+        pos_hint: {"top": 0.95}
+        halign: 'left'
+        valign: 'top'
+        color: 1, 1, 0, 1
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                size: self.texture_size[0] + 4, self.texture_size[1] + 4
+                pos: self.x-2, self.y-2
+
+    Label:
+        id: game_over_id
+        text: "GAME OVER"
+        font_size: 60 * root.scale
+        color: 1, 0, 0, 1
+        center_x: self.parent.center_x
+        center_y: self.parent.center_y
+        opacity: 0
+
+<Pipe>:
+    allow_stretch: True
+    keep_ratio: False
+    canvas.before:
+        PushMatrix
+        Scale:
+            x: 1
+            y: -1 if self.flip else 1
+            origin: self.center
+    canvas.after:
+        PopMatrix
+
+<Bird>:
+    allow_stretch: True
+    keep_ratio: True
